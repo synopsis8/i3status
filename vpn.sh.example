@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# we are connected if the directory exists
+if [ -d /proc/sys/net/ipv4/conf/tun0 ]; then
+  # we are connected, so propose disconnexion
+  echo "Disconnect VPN"
+  nmcli connection down `nmcli --fields name |head -1|cut -d: -f1`
+else
+  echo "Connect VPN"
+  nmcli connection up MYPREFERREDVPN-udp passwd-file ${HOME}/.myvpnpassword
+fi
